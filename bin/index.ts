@@ -8,6 +8,8 @@ import cdk = require('@aws-cdk/core');
 import cicd = require('@aws-cdk/app-delivery');
 import codecommit = require('@aws-cdk/aws-codecommit');
 
+import { createStack } from '../lib/infrastructure_stack';
+
 const app = new cdk.App();
 
 
@@ -68,12 +70,7 @@ selfUpdateStage.addAction(new cicd.PipelineDeployStackAction({
 }));
 
 const deployStage = pipeline.addStage({ stageName: 'Deploy' });
-const infrastructureStack = new cdk.Stack(app, 'InfrastructureStack', {
-    env: {
-	region: 'us-west-2',
-	account: '966335243884'
-    }
-});
+const infrastructureStack = createStack(app);
 
 const deployServiceAAction = new cicd.PipelineDeployStackAction({
     stack: infrastructureStack,
