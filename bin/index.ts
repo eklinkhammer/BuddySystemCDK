@@ -15,12 +15,7 @@ const app = new cdk.App();
 
 
 // This defines a stack that contains the CodePipeline
-const pipelineStack = new cdk.Stack(app, 'PipelineStack', {
-    env: {
-	region: 'us-west-2',
-	account: '966335243884'
-    }
-});
+const pipelineStack = new cdk.Stack(app, 'PipelineStack');
 
 const pipeline = new codepipeline.Pipeline(pipelineStack, 'CodePipeline', {
     // This CDK is for the pipeline that deploys itself, so when updated, make
@@ -70,17 +65,16 @@ selfUpdateStage.addAction(new cicd.PipelineDeployStackAction({
   adminPermissions: true,
 }));
 
-const deployStage = pipeline.addStage({ stageName: 'Deploy' });
+
 const infrastructureStack = new InfrastructureStack(app, 'InfrastructureStack');
 const lambdaStack = new LambdaStack(app, 'LambdaStack');
 
-const deployServiceAAction = new cicd.PipelineDeployStackAction({
+const deployInfrastructureAction = new cicd.PipelineDeployStackAction({
     stack: infrastructureStack,
     input: synthesizedApp,
     // See the note below for details about this option.
     adminPermissions: true,
 });
-deployStage.addAction(deployServiceAAction);
 
 const deployLambdaAction = new cicd.PipelineDeployStackAction({
     stack: lambdaStack,
@@ -88,5 +82,17 @@ const deployLambdaAction = new cicd.PipelineDeployStackAction({
     // See the note below for details about this option.
     adminPermissions: true,
 });
-deployStage.addAction(deployLambdaAction);
 
+const deployStage = pipeline.addStage({
+    stageName: 'DeployInfra',
+    actions: [
+	deployInfrastructureAction]
+});
+
+
+// App-delivery has hard-coded names that can't be shared between actions per stage
+const deployStage2 = pipeline.addStage({
+    stageName: 'DeployLambda',
+    actions: [
+	deployLambdaAction]
+});
