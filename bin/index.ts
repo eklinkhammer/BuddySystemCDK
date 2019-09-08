@@ -6,11 +6,7 @@ import codepipeline = require('@aws-cdk/aws-codepipeline');
 import codepipeline_actions = require('@aws-cdk/aws-codepipeline-actions');
 import cdk = require('@aws-cdk/core');
 import cicd = require('@aws-cdk/app-delivery');
-
 import codecommit = require('@aws-cdk/aws-codecommit');
-
-
-
 
 const app = new cdk.App();
 
@@ -22,6 +18,7 @@ const pipelineStack = new cdk.Stack(app, 'PipelineStack', {
 	account: '966335243884'
     }
 });
+
 const pipeline = new codepipeline.Pipeline(pipelineStack, 'CodePipeline', {
     // This CDK is for the pipeline that deploys itself, so when updated, make
     // sure latest update is still pushed through
@@ -70,14 +67,18 @@ selfUpdateStage.addAction(new cicd.PipelineDeployStackAction({
   adminPermissions: true,
 }));
 
-// Now add our service stacks
-// const deployStage = pipeline.addStage({ stageName: 'Deploy' });
-// const serviceStackA = new cdk.Stack(app, 'ServiceStackA', { /* ... */ });
-// // Add actions to deploy the stacks in the deploy stage:
-// const deployServiceAAction = new cicd.PipelineDeployStackAction({
-//   stack: serviceStackA,
-//   input: synthesizedApp,
-//   // See the note below for details about this option.
-//   adminPermissions: true,
-// });
-// deployStage.addAction(deployServiceAAction);
+const deployStage = pipeline.addStage({ stageName: 'Deploy' });
+const infrastructureStack = new cdk.Stack(app, 'InfrastructureStack', {
+    env: {
+	region: 'us-west-2',
+	account: '966335243884'
+    }
+});
+
+const deployServiceAAction = new cicd.PipelineDeployStackAction({
+    stack: infrastructureStack,
+    input: synthesizedApp,
+    // See the note below for details about this option.
+    adminPermissions: true,
+});
+deployStage.addAction(deployServiceAAction);
