@@ -14,7 +14,9 @@ phases:
       # Builds the CDK App so it can be synthesized
       - npm run build
       # Synthesizes the CDK App and puts the resulting artifacts into `dist`
+
       - npm run cdk synth -- -o dist
+      - find dist/ -name '*.template.json' -exec rename 's/\.json$/.yaml/' \{} \;
 artifacts:
   # The output artifact is all the files in the `dist` directory
   base-directory: dist
