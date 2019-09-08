@@ -8,7 +8,8 @@ import cdk = require('@aws-cdk/core');
 import cicd = require('@aws-cdk/app-delivery');
 import codecommit = require('@aws-cdk/aws-codecommit');
 
-import { createStack } from '../lib/infrastructure_stack';
+import { InfrastructureStack } from '../lib/infrastructure_stack';
+import { LambdaStack } from '../lib/lambda_stack';
 
 const app = new cdk.App();
 
@@ -27,7 +28,7 @@ const pipeline = new codepipeline.Pipeline(pipelineStack, 'CodePipeline', {
     restartExecutionOnUpdate: true
 });
 
- const repo = new codecommit.Repository(pipelineStack, 'Repo', {
+const repo = new codecommit.Repository(pipelineStack, 'Repo', {
      repositoryName: 'BuddySystemCDK'
 });
 
@@ -70,7 +71,8 @@ selfUpdateStage.addAction(new cicd.PipelineDeployStackAction({
 }));
 
 const deployStage = pipeline.addStage({ stageName: 'Deploy' });
-const infrastructureStack = createStack(app);
+const infrastructureStack = new InfrastructureStack(app, 'InfrastructureStack');
+const lambdaStack = new LambdaStack(app, 'LambdaStack');
 
 const deployServiceAAction = new cicd.PipelineDeployStackAction({
     stack: infrastructureStack,
@@ -79,3 +81,12 @@ const deployServiceAAction = new cicd.PipelineDeployStackAction({
     adminPermissions: true,
 });
 deployStage.addAction(deployServiceAAction);
+
+const deployLambdaAction = new cicd.PipelineDeployStackAction({
+    stack: lambdaStack,
+    input: synthesizedApp,
+    // See the note below for details about this option.
+    adminPermissions: true,
+});
+deployStage.addAction(deployLambdaAction);
+
