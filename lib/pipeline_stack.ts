@@ -74,6 +74,7 @@ export class PipelineStack extends Stack {
 		      'index.js',
 		      'node_modules/**/*',
 		      'src/**/*',
+		      'src/**'
 		  ],
               },
 	  }),
