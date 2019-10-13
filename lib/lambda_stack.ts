@@ -18,7 +18,7 @@ export class LambdaStack extends cdk.Stack {
 
 	const getUserLambda = new lambda.Function(this, 'getUserLambda', {
 	    code: this.lambdaCode,
-	    handler: 'index.getUser',
+	    handler: 'lambda.index.getUser',
 	    runtime: lambda.Runtime.NODEJS_10_X,
 	});
 
