@@ -73,6 +73,8 @@ export class PipelineStack extends Stack {
 		      'lambda/index.js',
 		      'node_modules/**/*',
 		      'lambda/src/**',
+		      'lambda/src/**/*',
+		      'lambda/**/*'
 		  ],
               },
 	  }),
