@@ -70,6 +70,7 @@ export class PipelineStack extends Stack {
               },
               artifacts: {
 		  files: [
+		      // TODO - Remove the ones that aren't needed.
 		      'lambda/index.js',
 		      'node_modules/**/*',
 		      'lambda/src/**',

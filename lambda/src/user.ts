@@ -51,6 +51,10 @@ export const postUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from postUser");
     console.log(event);
 
+    const session = new PracticeSession();
+    session.user = event.body.userId;
+    console.log(session);
+    
     //let session = new PracticeSession();
     //session.user = event.body.userId
 
