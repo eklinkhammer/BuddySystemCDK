@@ -1,4 +1,5 @@
-import dynamo = require('aws-sdk/client-dynamodb-v2-node');
+//import dynamo = require('aws-sdk/client-dynamodb-v2-node');
+
 
 export const getUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from getUser");

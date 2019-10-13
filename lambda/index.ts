@@ -1,4 +1,4 @@
-import * as user from "./user";
+import * as user from "./src/user";
 
 export const getUser = user.getUser;
 
