@@ -1,4 +1,6 @@
-export {getUser} from "./user";
+import * as user from "./user";
+
+export const getUser = user.getUser;
 
 export const handler = async (event: any={}) : Promise <any> => {
     
