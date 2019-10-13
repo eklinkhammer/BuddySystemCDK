@@ -15,12 +15,6 @@ export class LambdaStack extends cdk.Stack {
 
 	const users = api.root.addResource('users');
 	const user = users.addResource('{user_id}');
-	
-        const func = new lambda.Function(this, 'Lambda', {
-            code: this.lambdaCode,
-            handler: 'index.handler',
-	    runtime: lambda.Runtime.NODEJS_10_X,
-        });
 
 	const getUserLambda = new lambda.Function(this, 'getUserLambda', {
 	    code: this.lambdaCode,
@@ -28,8 +22,16 @@ export class LambdaStack extends cdk.Stack {
 	    runtime: lambda.Runtime.NODEJS_10_X,
 	});
 
+	const postUserLambda = new lambda.Function(this, 'postUserLambda', {
+	    code: this.lambdaCode,
+	    handler: 'index.postUser',
+	    runtime: lambda.Runtime.NODEJS_10_X,
+	});
+
 	const getUserIntegration = new apigateway.LambdaIntegration(getUserLambda);
 	user.addMethod('GET', getUserIntegration);
-	
+
+	const postUserIntegration = new apigateway.LambdaIntegration(postUserLambda);
+	user.addMethod('POST', postUserIntegration);
     }
 }

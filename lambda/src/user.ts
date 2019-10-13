@@ -10,6 +10,7 @@ import {
 
 export const getUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from getUser");
+    console.log(event);
     return {
 	statusCode: 200,
 	body: "GetUser body"
@@ -18,6 +19,7 @@ export const getUser = async (event: any={}) : Promise <any> => {
 
 export const postUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from postUser");
+    console.log(event);
     return {
 	statusCode: 200,
 	body: "PostUser body"

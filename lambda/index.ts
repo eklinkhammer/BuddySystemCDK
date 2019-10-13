@@ -1,8 +1,4 @@
 import * as user from "./src/user";
 
 export const getUser = user.getUser;
-
-export const handler = async (event: any={}) : Promise <any> => {
-    
-    return { statusCode: 200, body: "Hello from commitment handler"};
-};
+export const postUser = user.postUser;
