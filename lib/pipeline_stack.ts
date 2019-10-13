@@ -69,12 +69,10 @@ export class PipelineStack extends Stack {
 		  },
               },
               artifacts: {
-		  'base-directory': 'lambda',
 		  files: [
-		      'index.js',
+		      'lambda/index.js',
 		      'node_modules/**/*',
-		      'src/**',
-		      '../node_modules/**/*'
+		      'lambda/src/**',
 		  ],
               },
 	  }),
