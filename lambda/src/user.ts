@@ -1,6 +1,6 @@
 //import dynamo = require('aws-sdk/client-dynamodb-v2-node');
 
-//import {PracticeSession} from './PracticeSession';
+import {PracticeSession} from './PracticeSession';
 import {DataMapper} from '@aws/dynamodb-data-mapper';
 import DynamoDB = require('aws-sdk/clients/dynamodb');
 
@@ -35,14 +35,14 @@ export const postUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from postUser");
     console.log(event);
 
-    //let session = new PracticeSession();
-    //session.user = event.body.userId
+    let session = new PracticeSession();
+    session.user = event.body.userId
 
-    //console.log(session);
+    console.log(session);
     
-    //mapper.put({item: session}).then(() => {
-//	console.log(session.user);
-   // });
+    mapper.put({item: session}).then(() => {
+	console.log(session.user);
+    });
     
     return {
 	statusCode: 200,
