@@ -47,8 +47,13 @@ export const getUser = async (event: any={}) : Promise <any> => {
     };
 };
 
+interface Goal {
+    description: string
+};
+
 interface PostUserSession {
-    userId: string
+    userId: string,
+    currentGoal?: Goal
 };
 
 export const postUser = async (event: any={}) : Promise <any> => {
@@ -57,6 +62,13 @@ export const postUser = async (event: any={}) : Promise <any> => {
 
     let obj: PostUserSession = JSON.parse(event.body);
     console.log(obj);
+
+    if (obj.currentGoal === undefined) {
+	console.log("Goal not provided");
+    } else {
+	console.log(obj.currentGoal.description);
+    }
+    
     const session = new PracticeSession();
     session.user = obj.userId;
     console.log(session);
