@@ -47,12 +47,18 @@ export const getUser = async (event: any={}) : Promise <any> => {
     };
 };
 
+interface PostUserSession {
+    userId: string
+};
+
 export const postUser = async (event: any={}) : Promise <any> => {
     console.log("Logging from postUser");
     console.log(event);
 
+    let obj: PostUserSession = JSON.parse(event.body);
+    console.log(obj);
     const session = new PracticeSession();
-    session.user = event.body.userId;
+    session.user = obj.userId;
     console.log(session);
     
     //let session = new PracticeSession();

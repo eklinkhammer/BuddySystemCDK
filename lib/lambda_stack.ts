@@ -31,13 +31,7 @@ export class LambdaStack extends cdk.Stack {
 	const getUserIntegration = new apigateway.LambdaIntegration(getUserLambda);
 	user.addMethod('GET', getUserIntegration);
 
-	const postUserIntegration = new apigateway.LambdaIntegration(postUserLambda, {
-	    requestTemplates: {
-		'application/json': JSON.stringify({ userId: "$.input.params('userId')",
-
-						     user2: "$.input.body.userId"})
-	    }
-	});
+	const postUserIntegration = new apigateway.LambdaIntegration(postUserLambda);
 	user.addMethod('POST', postUserIntegration);
     }
 }
