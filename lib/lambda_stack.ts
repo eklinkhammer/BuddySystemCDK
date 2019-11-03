@@ -16,7 +16,8 @@ export class LambdaStack extends cdk.Stack {
 	    partitionKey: {
 		name: 'user',
 		type: dynamodb.AttributeType.STRING
-	    }
+	    },
+	    tableName: 'PracticeLog'
 	});
 
 	const commitments = new dynamodb.Table(this, 'Commitments', {
