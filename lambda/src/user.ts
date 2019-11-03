@@ -23,13 +23,20 @@ export const getUser = async (event: any={}) : Promise <any> => {
     userItem.user = event.queryStringParameters.user_id;
 
     console.log(userItem);
-    const fetched = await mapper.get({item: userItem});
-    console.log(fetched);
+    try {
+	const fetched = await mapper.get({item: userItem});
+	console.log(fetched);
 				  
-    return {
-	statusCode: 200,
-	body: "GetUser body"
-    };
+	return {
+	    statusCode: 200,
+	    body: "GetUser body"
+	};
+    } catch (e) {
+	// Check exception type and return 500 if dynamo problem other than ItemNotFound
+	return {
+	    statusCode: 404
+	};
+    }
 };
 
 interface Goal {
