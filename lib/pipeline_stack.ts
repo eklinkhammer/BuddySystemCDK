@@ -105,14 +105,13 @@ export class PipelineStack extends Stack {
 	  adminPermissions: true,
       }));
 
+      // const infrastructureStack = new InfrastructureStack(app, 'InfrastructureStack');
 
-      const infrastructureStack = new InfrastructureStack(app, 'InfrastructureStack');
-
-      const deployInfrastructureAction = new cicd.PipelineDeployStackAction({
-	  stack: infrastructureStack,
-	  input: synthesizedApp,
-	  adminPermissions: true,
-      });
+      // const deployInfrastructureAction = new cicd.PipelineDeployStackAction({
+      // 	  stack: infrastructureStack,
+      // 	  input: synthesizedApp,
+      // 	  adminPermissions: true,
+      // });
 
       
       const deployLambdaAction = new codepipeline_actions.CloudFormationCreateUpdateStackAction({
@@ -129,7 +128,7 @@ export class PipelineStack extends Stack {
       const deployStage = pipeline.addStage({
 	  stageName: 'Deploy',
 	  actions: [
-	      deployInfrastructureAction,
+	      //deployInfrastructureAction,
 	      deployLambdaAction
 	  ]
       });

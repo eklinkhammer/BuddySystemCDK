@@ -1,6 +1,8 @@
 import lambda = require('@aws-cdk/aws-lambda');
 import apigateway = require('@aws-cdk/aws-apigateway');
+import dynamodb = require('@aws-cdk/aws-dynamodb');
 import cdk = require('@aws-cdk/core');
+
 import path = require('path');
 
 export class LambdaStack extends cdk.Stack {
@@ -10,6 +12,20 @@ export class LambdaStack extends cdk.Stack {
 	
 	this.lambdaCode = lambda.Code.cfnParameters();
 
+	const practiceLog = new dynamodb.Table(this, 'PracticeLog', {
+	    partitionKey: {
+		name: 'user',
+		type: dynamodb.AttributeType.STRING
+	    }
+	});
+
+	const commitments = new dynamodb.Table(this, 'Commitments', {
+	    partitionKey: {
+		name: 'user',
+		type: dynamodb.AttributeType.STRING
+	    }
+	});
+	
 	const api = new apigateway.RestApi(this, 'buddy-api');
 	api.root.addMethod('ANY');
 
@@ -33,5 +49,7 @@ export class LambdaStack extends cdk.Stack {
 
 	const postUserIntegration = new apigateway.LambdaIntegration(postUserLambda);
 	user.addMethod('POST', postUserIntegration);
+
+	practiceLog.grantReadWriteData(getUserLambda);
     }
 }
