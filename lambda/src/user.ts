@@ -26,11 +26,10 @@ export const getUser = async (event: any={}) : Promise <any> => {
     try {
 	const fetched = await mapper.get({item: userItem});
 	console.log(fetched);
-	let userId = userItem.user;
 	
 	return {
 	    statusCode: 200,
-	    body: fetched
+	    body: JSON.stringify(fetched)
 	};
     } catch (e) {
 	// Check exception type and return 500 if dynamo problem other than ItemNotFound
@@ -72,7 +71,7 @@ export const postUser = async (event: any={}) : Promise <any> => {
     //console.log(session);
     
     //mapper.put({item: session}).then(() => {
-//	console.log(session.user);
+    //	console.log(session.user);
     //});
     
     return {
