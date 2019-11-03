@@ -24,7 +24,16 @@ export class LambdaStack extends cdk.Stack {
 	    partitionKey: {
 		name: 'user',
 		type: dynamodb.AttributeType.STRING
-	    }
+	    },
+	    tableName: 'Commitments'
+	});
+
+	const userTable = new dynamodb.Table(this, 'Users', {
+	    partitionKey: {
+		name: 'user',
+		type: dynamodb.AttributeType.STRING
+	    },
+	    tableName: 'Users'
 	});
 	
 	const api = new apigateway.RestApi(this, 'buddy-api');
@@ -51,6 +60,11 @@ export class LambdaStack extends cdk.Stack {
 	const postUserIntegration = new apigateway.LambdaIntegration(postUserLambda);
 	user.addMethod('POST', postUserIntegration);
 
+
+	userTable.grantReadWriteData(getUserLambda);
+	userTable.grantReadWriteData(postUserLambda);
+	
 	practiceLog.grantReadWriteData(getUserLambda);
+	practiceLog.grantReadWriteData(postUserLambda);
     }
 }
