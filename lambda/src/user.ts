@@ -29,7 +29,9 @@ export const getUser = async (event: any={}) : Promise <any> => {
 				  
 	return {
 	    statusCode: 200,
-	    body: "GetUser body"
+	    body: {
+		userItem.user: fetched
+	    }
 	};
     } catch (e) {
 	// Check exception type and return 500 if dynamo problem other than ItemNotFound
