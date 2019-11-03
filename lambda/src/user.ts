@@ -35,11 +35,12 @@ export const getUser = async (event: any={}) : Promise <any> => {
 
     console.log(event.queryStringParameters.user_id);
 
-    //let session = new PracticeSession();
-    //session.user = event.queryStringParameters.user_id;
+    let session = new PracticeSession();
+    session.user = event.queryStringParameters.user_id;
 
-    //const fetched = await mapper.get({item: session});
-    //console.log(fetched);
+    console.log(session);
+    const fetched = await mapper.get({item: session});
+    console.log(fetched);
 				  
     return {
 	statusCode: 200,
