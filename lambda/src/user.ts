@@ -32,6 +32,7 @@ export const getUser = async (event: any={}) : Promise <any> => {
 	    body: JSON.stringify(fetched)
 	};
     } catch (e) {
+	console.log(e);
 	// Check exception type and return 500 if dynamo problem other than ItemNotFound
 	return {
 	    statusCode: 404
@@ -61,7 +62,7 @@ export const postUser = async (event: any={}) : Promise <any> => {
 	console.log(obj.currentGoal.description);
     }
     
-    const session = new PracticeSession();
+    const session = new UserItem();
     session.user = obj.userId;
     console.log(session);
     
